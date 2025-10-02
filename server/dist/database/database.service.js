@@ -36,7 +36,7 @@ let DatabaseService = class DatabaseService {
     }
     async query(sql, params) {
         const res = await this.pool.query(sql, params);
-        return res.rows;
+        return res;
     }
 };
 exports.DatabaseService = DatabaseService;

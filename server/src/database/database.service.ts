@@ -26,8 +26,8 @@ export class DatabaseService implements OnModuleInit, OnModuleDestroy {
     console.log('❌ Database disconnected');
   }
 
-  async query<T = any>(sql: string, params?: any[]): Promise<T[]> {
+  async query<T = any>(sql: string, params?: any[]): Promise<any> {
     const res = await this.pool.query(sql, params);
-    return res.rows;
+    return res;
   }
 }

@@ -6,5 +6,5 @@ export declare class DatabaseService implements OnModuleInit, OnModuleDestroy {
     constructor(config: ConfigService);
     onModuleInit(): Promise<void>;
     onModuleDestroy(): Promise<void>;
-    query<T = any>(sql: string, params?: any[]): Promise<T[]>;
+    query<T = any>(sql: string, params?: any[]): Promise<any>;
 }
