@@ -32,8 +32,8 @@ export class UserService {
   }
 
   async createUser(dto) {
-    const { email, password } = dto
-    const hashedPassword = await hash(password) || ''
+    const { email, password } = dto;
+    const hashedPassword = await hash(password) || '';
     const result = await this.databaseService.query(
       'INSERT INTO users(email, password) VALUES($1, $2) RETURNING *',
       [email, hashedPassword],
