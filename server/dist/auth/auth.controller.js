@@ -19,7 +19,6 @@ const register_dto_1 = require("./dto/register.dto");
 const login_dto_1 = require("./dto/login.dto");
 const auth_guard_1 = require("./guards/auth.guard");
 const user_service_1 = require("../user/user.service");
-const roles_guard_1 = require("./guards/roles.guard");
 const roles_decorator_1 = require("./decorators/roles.decorator");
 const role_enum_1 = require("./enums/role.enum");
 let AuthController = class AuthController {
@@ -81,7 +80,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "refresh", null);
 __decorate([
-    (0, common_1.UseGuards)(auth_guard_1.AuthGuard, roles_guard_1.RolesGuard),
+    (0, common_1.UseGuards)(auth_guard_1.AuthGuard, RolesGпuard),
     (0, roles_decorator_1.Roles)(role_enum_1.Role.REGULAR),
     (0, common_1.Get)('profile'),
     (0, common_1.HttpCode)(common_1.HttpStatus.OK),
