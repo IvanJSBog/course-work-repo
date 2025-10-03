@@ -4,5 +4,5 @@ export declare class UserService {
     constructor(databaseService: DatabaseService);
     findUserById(id: string): Promise<any>;
     findUserByEmail(email: string): Promise<any>;
-    createUser(dto: any): Promise<any>;
+    createUser(email: string, password: string): Promise<any>;
 }
