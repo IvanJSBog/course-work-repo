@@ -12,6 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.RegisterDto = void 0;
 const class_validator_1 = require("class-validator");
 const is_password_matching_decorator_1 = require("../decorators/is-password-matching.decorator");
+const swagger_1 = require("@nestjs/swagger");
 class RegisterDto {
     email;
     password;
@@ -19,12 +20,24 @@ class RegisterDto {
 }
 exports.RegisterDto = RegisterDto;
 __decorate([
+    (0, swagger_1.ApiProperty)({
+        description: 'Уникальный email пользователя',
+        example: 'user@example.com',
+        required: true,
+    }),
     (0, class_validator_1.IsString)({ message: 'email must be a string' }),
     (0, class_validator_1.IsNotEmpty)({ message: 'email is required' }),
     (0, class_validator_1.IsEmail)({}, { message: 'not valid email format' }),
     __metadata("design:type", String)
 ], RegisterDto.prototype, "email", void 0);
 __decorate([
+    (0, swagger_1.ApiProperty)({
+        description: 'Пароль для входа (от 6 до 20 символов)',
+        example: 'strongPassword123',
+        required: true,
+        minLength: 6,
+        maxLength: 20,
+    }),
     (0, class_validator_1.IsString)({ message: 'password must be a string' }),
     (0, class_validator_1.IsNotEmpty)({ message: 'password is required' }),
     (0, class_validator_1.Length)(6, 20, {
@@ -33,6 +46,13 @@ __decorate([
     __metadata("design:type", String)
 ], RegisterDto.prototype, "password", void 0);
 __decorate([
+    (0, swagger_1.ApiProperty)({
+        description: 'Повтор пароля (должен совпадать с password)',
+        example: 'strongPassword123',
+        required: true,
+        minLength: 6,
+        maxLength: 20,
+    }),
     (0, class_validator_1.IsString)({ message: 'repeat password must be a string' }),
     (0, class_validator_1.IsNotEmpty)({ message: 'repeat password is required' }),
     (0, class_validator_1.Length)(6, 20, {

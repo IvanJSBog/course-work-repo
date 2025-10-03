@@ -23,7 +23,6 @@ export class DatabaseInitService implements OnApplicationBootstrap {
         email TEXT UNIQUE NOT NULL,
         password TEXT NOT NULL,
         role userrole NOT NULL DEFAULT 'REGULAR',
-        refresh_token TEXT,
         created_at TIMESTAMP DEFAULT now(),
         updated_at TIMESTAMP DEFAULT now()
         );
