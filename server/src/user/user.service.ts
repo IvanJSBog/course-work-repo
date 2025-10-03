@@ -8,11 +8,7 @@ export class UserService {
   }
 
   async findUserById(id: string) {
-    const user = await this.databaseService.query(`
-        SELECT * FROM users WHERE id = $1
-      `,
-      [id],
-    );
+    const user = await this.databaseService.query('SELECT * FROM users WHERE id = $1', [id]);
     if (!user.rows.length) {
       throw new NotFoundException('User not found');
     }
@@ -33,10 +29,15 @@ export class UserService {
 
   async createUser(email: string, password: string) {
     const hashedPassword = await hash(password) || '';
-    const result = await this.databaseService.query(
-      'INSERT INTO users(email, password) VALUES($1, $2) RETURNING *',
-      [email, hashedPassword],
-    );
-    return result.rows[0];
+
+    try {
+      const result = await this.databaseService.query(
+        'INSERT INTO users(email, password) VALUES($1, $2) RETURNING *',
+        [email, hashedPassword],
+      );
+      return result.rows[0];
+    } catch (error) {
+      throw error;
+    }
   }
 }
