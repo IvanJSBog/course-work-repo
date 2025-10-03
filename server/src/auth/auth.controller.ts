@@ -1,11 +1,19 @@
-import { Controller, Post, Body, HttpStatus, HttpCode, Res, Req } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, HttpStatus, Post, Req, Res, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
+import { AuthGuard } from './guards/auth.guard';
+import { UserService } from '../user/user.service';
+import { RolesGuard } from './guards/roles.guard';
+import { Roles } from './decorators/roles.decorator';
+import { Role } from './enums/role.enum';
 
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(
+    private readonly authService: AuthService,
+    private readonly userService: UserService,
+  ) {}
 
   @Post('signup')
   @HttpCode(HttpStatus.OK)
@@ -29,5 +37,14 @@ export class AuthController {
   @HttpCode(HttpStatus.OK)
   async refresh(@Req() req: any) {
     return this.authService.refresh(req);
+  }
+
+  // временный метод для тестирования гвардов
+  @UseGuards(AuthGuard, RolesGuard)
+  @Roles(Role.REGULAR)
+  @Get('profile')
+  @HttpCode(HttpStatus.OK)
+  async getProfile(@Req() req: any) {
+    return this.userService.findUserById(req.user.id);
   }
 }
