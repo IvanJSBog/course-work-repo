@@ -40,7 +40,7 @@ export class AuthController {
   }
 
   // временный метод для тестирования гвардов
-  @UseGuards(AuthGuard, RolesGпuard)
+  @UseGuards(AuthGuard, RolesGuard)
   @Roles(Role.REGULAR)
   @Get('profile')
   @HttpCode(HttpStatus.OK)
