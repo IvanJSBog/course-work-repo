@@ -12,7 +12,14 @@ export class UserService {
     if (!user.rows.length) {
       throw new NotFoundException('User not found');
     }
-    return user.rows[0];
+    const orders = await this.databaseService.query(
+      `SELECT id, status, total_price, created_at, updated_at
+       FROM orders
+       WHERE user_id = $1
+       ORDER BY created_at DESC`,
+      [id],
+    );
+    return { ...user.rows[0], orders: orders.rows };
   }
 
   async findUserByEmail(email: string) {
@@ -39,4 +46,5 @@ export class UserService {
       throw error;
     }
   }
+
 }

@@ -23,7 +23,7 @@ let DatabaseInitService = class DatabaseInitService {
       DO $$
       BEGIN
         IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'userrole') THEN
-          CREATE TYPE userrole AS ENUM ('ADMIN', 'REGULAR');
+          CREATE TYPE userrole AS ENUM ('ADMIN', 'REGULAR', 'SELLER');
         END IF;
       END $$;
     `);
@@ -96,7 +96,7 @@ let DatabaseInitService = class DatabaseInitService {
         created_at TIMESTAMP DEFAULT now(),
         updated_at TIMESTAMP DEFAULT now(),
         status orderstatus NOT NULL DEFAULT 'PENDING',
-        total_price NUMERIC(10,2) NOT NULL,
+        total_price NUMERIC(10,2) NOT NULL DEFAULT 0,
         user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE
         );
     `);
