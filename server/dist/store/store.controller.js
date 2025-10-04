@@ -20,6 +20,7 @@ const roles_guard_1 = require("../auth/guards/roles.guard");
 const roles_decorator_1 = require("../auth/decorators/roles.decorator");
 const role_enum_1 = require("../auth/enums/role.enum");
 const create_store_dto_1 = require("./dto/create-store.dto");
+const update_store_dto_1 = require("./dto/update-store.dto");
 let StoreController = class StoreController {
     storeService;
     constructor(storeService) {
@@ -30,6 +31,12 @@ let StoreController = class StoreController {
     }
     async createStore(dto, req) {
         return this.storeService.createStore(req.user.id, dto);
+    }
+    async updateStore(dto, req, storeId) {
+        return this.storeService.updateStore(storeId, req.user.id, dto);
+    }
+    async deleteStore(req, storeId) {
+        return this.storeService.deleteStore(storeId, req.user.id);
     }
 };
 exports.StoreController = StoreController;
@@ -53,6 +60,27 @@ __decorate([
     __metadata("design:paramtypes", [create_store_dto_1.CreateStoreDto, Object]),
     __metadata("design:returntype", Promise)
 ], StoreController.prototype, "createStore", null);
+__decorate([
+    (0, common_1.UseGuards)(auth_guard_1.AuthGuard, roles_guard_1.RolesGuard),
+    (0, roles_decorator_1.Roles)(role_enum_1.Role.SELLER),
+    (0, common_1.Patch)(':id'),
+    __param(0, (0, common_1.Body)()),
+    __param(1, (0, common_1.Req)()),
+    __param(2, (0, common_1.Param)('id')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [update_store_dto_1.UpdateStoreDto, Object, String]),
+    __metadata("design:returntype", Promise)
+], StoreController.prototype, "updateStore", null);
+__decorate([
+    (0, common_1.UseGuards)(auth_guard_1.AuthGuard, roles_guard_1.RolesGuard),
+    (0, roles_decorator_1.Roles)(role_enum_1.Role.SELLER),
+    (0, common_1.Delete)(':id'),
+    __param(0, (0, common_1.Req)()),
+    __param(1, (0, common_1.Param)('id')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, String]),
+    __metadata("design:returntype", Promise)
+], StoreController.prototype, "deleteStore", null);
 exports.StoreController = StoreController = __decorate([
     (0, common_1.Controller)('store'),
     __metadata("design:paramtypes", [store_service_1.StoreService])

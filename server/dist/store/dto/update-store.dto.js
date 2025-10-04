@@ -21,16 +21,20 @@ __decorate([
     (0, swagger_1.ApiProperty)({
         description: 'The title of the store',
         example: 'My Awesome Store',
+        required: false,
     }),
-    (0, class_validator_1.IsString)({ message: 'title is required' }),
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsString)({ message: 'title is string' }),
     __metadata("design:type", String)
 ], UpdateStoreDto.prototype, "title", void 0);
 __decorate([
     (0, swagger_1.ApiProperty)({
         description: 'The description of the store',
         example: 'We sell the best gadgets in town.',
+        required: false,
     }),
-    (0, class_validator_1.IsString)({ message: 'description is required' }),
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsString)({ message: 'description is string' }),
     __metadata("design:type", String)
 ], UpdateStoreDto.prototype, "description", void 0);
 //# sourceMappingURL=update-store.dto.js.map

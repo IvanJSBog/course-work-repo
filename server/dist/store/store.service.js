@@ -21,7 +21,7 @@ let StoreService = class StoreService {
         const store = await this.databaseService.query(`
         SELECT * FROM stores WHERE user_id = $1 AND id = $2;
     `, [userId, storeId]);
-        if (!store) {
+        if (store.rows.length === 0) {
             throw new common_1.NotFoundException(`Store not found or you are not it's owner`);
         }
         return store.rows[0];
@@ -41,6 +41,32 @@ let StoreService = class StoreService {
             }
             throw error;
         }
+    }
+    async updateStore(storeId, userId, dto) {
+        await this.getById(storeId, userId);
+        const keys = Object.keys(dto).filter(key => dto[key] !== undefined);
+        if (keys.length === 0)
+            return null;
+        const setClauses = keys.map((key, i) => `${key} = $${i + 1}`);
+        const values = keys.map(key => dto[key]);
+        values.push(userId, storeId);
+        const sql = `
+        UPDATE stores
+        SET ${setClauses.join(', ')}
+        WHERE user_id = $${values.length - 1} AND id = $${values.length}
+        RETURNING *;
+    `;
+        const result = await this.databaseService.query(sql, values);
+        return result.rows[0];
+    }
+    async deleteStore(storeId, userId) {
+        await this.getById(storeId, userId);
+        const result = await this.databaseService.query(`
+      DELETE FROM stores
+      WHERE id = $1
+      RETURNING *;
+    `, [storeId]);
+        return result.rows[0];
     }
 };
 exports.StoreService = StoreService;
