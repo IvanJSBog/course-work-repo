@@ -78,9 +78,9 @@ export class AuthService {
     if (!user) {
       throw new UnauthorizedException('User not found');
     }
-    const { exp, iat, ...cleanPayload } = payload;
+    const newPayload = { id: user.id, role: user.role };
 
-    const accessToken = await this.jwtService.signAsync(cleanPayload, { expiresIn: '15m' });
+    const accessToken = await this.jwtService.signAsync(newPayload, { expiresIn: '15m' });
 
     return { accessToken };
   }
