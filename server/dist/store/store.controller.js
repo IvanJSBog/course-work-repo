@@ -19,6 +19,7 @@ const auth_guard_1 = require("../auth/guards/auth.guard");
 const roles_guard_1 = require("../auth/guards/roles.guard");
 const roles_decorator_1 = require("../auth/decorators/roles.decorator");
 const role_enum_1 = require("../auth/enums/role.enum");
+const create_store_dto_1 = require("./dto/create-store.dto");
 let StoreController = class StoreController {
     storeService;
     constructor(storeService) {
@@ -26,6 +27,9 @@ let StoreController = class StoreController {
     }
     async getStoreById(id, req) {
         return this.storeService.getById(id, req.user.id);
+    }
+    async createStore(dto, req) {
+        return this.storeService.createStore(req.user.id, dto);
     }
 };
 exports.StoreController = StoreController;
@@ -39,6 +43,16 @@ __decorate([
     __metadata("design:paramtypes", [String, Object]),
     __metadata("design:returntype", Promise)
 ], StoreController.prototype, "getStoreById", null);
+__decorate([
+    (0, common_1.UseGuards)(auth_guard_1.AuthGuard, roles_guard_1.RolesGuard),
+    (0, roles_decorator_1.Roles)(role_enum_1.Role.SELLER),
+    (0, common_1.Post)(),
+    __param(0, (0, common_1.Body)()),
+    __param(1, (0, common_1.Req)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [create_store_dto_1.CreateStoreDto, Object]),
+    __metadata("design:returntype", Promise)
+], StoreController.prototype, "createStore", null);
 exports.StoreController = StoreController = __decorate([
     (0, common_1.Controller)('store'),
     __metadata("design:paramtypes", [store_service_1.StoreService])

@@ -26,6 +26,22 @@ let StoreService = class StoreService {
         }
         return store.rows[0];
     }
+    async createStore(userId, dto) {
+        try {
+            const result = await this.databaseService.query(`
+      INSERT INTO stores (user_id, title, description)
+      VALUES ($1, $2, $3)
+      RETURNING *;
+    `, [userId, dto.title, dto.description]);
+            return result.rows[0];
+        }
+        catch (error) {
+            if (error.code === '23505') {
+                throw new common_1.ConflictException('Пользователь уже имеет магазин');
+            }
+            throw error;
+        }
+    }
 };
 exports.StoreService = StoreService;
 exports.StoreService = StoreService = __decorate([
